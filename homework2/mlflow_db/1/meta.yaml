@@ -1,0 +1,4 @@
+artifact_location: ./mlflowruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: nyc-taxi-experiment

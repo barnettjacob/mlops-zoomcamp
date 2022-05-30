@@ -1,0 +1,15 @@
+artifact_uri: ./mlflowruns/1/684b481487e04713b9d84f048a5ca815/artifacts
+end_time: 1653760569777
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 684b481487e04713b9d84f048a5ca815
+run_uuid: 684b481487e04713b9d84f048a5ca815
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1653760547019
+status: 3
+tags: []
+user_id: jabarnett
