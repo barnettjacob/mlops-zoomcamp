@@ -1,10 +1,12 @@
 import pandas as pd
+import pickle
 
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
 from prefect import flow, task
+
 
 @task
 def read_data(path):
@@ -76,6 +78,27 @@ def main(date=None):
 
     # train the model
     lr, dv = train_model(df_train_processed, categorical).result()
+    
+    with open('models/model.bin', 'wb') as f_out:
+        pickle.dump(lr, f_out)    
+    
+    with open('models/preprocessor.b', 'wb') as f_out:
+        pickle.dump(dv, f_out)
+
     run_model(df_val_processed, categorical, dv, lr)
 
-main(date="2021-08-15")
+#main(date="2021-08-15")
+
+
+from prefect.deployments import DeploymentSpec
+from prefect.orion.schemas.schedules import IntervalSchedule
+from prefect.flow_runners import SubprocessFlowRunner
+from datetime import timedelta
+
+DeploymentSpec(
+  flow=main,
+  name="momdel_training",
+  schedule=IntervalSchedule(interval=timedelta(minutes=5)),
+  flow_runner=SubprocessFlowRunner(),
+  tags=["ml"]
+)
